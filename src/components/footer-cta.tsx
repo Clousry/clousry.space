@@ -30,8 +30,6 @@ type FooterCtaProps = {
 
 export function FooterCta({ content, theme }: FooterCtaProps) {
   const quickInfo = content.highlights.slice(0, 2);
-  const year = 2024;
-
   return (
     <motion.footer
       id="contact"
@@ -196,7 +194,7 @@ export function FooterCta({ content, theme }: FooterCtaProps) {
             </div>
 
             <p className="text-center text-xs uppercase tracking-[0.16em] text-[var(--text-muted)] sm:text-right">
-              &copy; {year} PROJECT : CLOUSRY&apos;S SPACE. {content.rightsReserved}
+              &copy; 2024 CLOUSRY. {content.rightsReserved}
             </p>
           </div>
         </div>
