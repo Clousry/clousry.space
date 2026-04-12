@@ -1,6 +1,6 @@
-# Project : CLOUSRY'S SPACE
+# CLOUSRY'S SPACE
 
-Modern, iki dilli ve tema uyumlu bir portfolyo arayuzu. Bu repo; motion, post-produksiyon, gorsel tasarim ve video vitrinleri icin hazirlanmis kisisel bir portfolio yapisini acik kaynak bir referans olarak sunar.
+Kisisel portfolyo sitesi. Bu repo; motion, post-produksiyon, gorsel tasarim ve video vitrinleri icin hazirlanmis modern, iki dilli ve tema uyumlu bir personal portfolio websitesi sunar.
 
 ## Genel Bakis
 
