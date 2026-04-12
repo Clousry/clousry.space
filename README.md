@@ -1,36 +1,78 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Project : CLOUSRY'S SPACE
 
-## Getting Started
+Modern, iki dilli ve tema uyumlu bir portfolyo arayuzu. Bu repo; motion, post-produksiyon, gorsel tasarim ve video vitrinleri icin hazirlanmis kisisel bir portfolio yapisini acik kaynak bir referans olarak sunar.
 
-First, run the development server:
+## Genel Bakis
+
+Proje; minimal duzen, yumusak cam efekti, responsive yerlesim ve gomulu video portfolyo alani etrafinda kuruldu. Ister dogrudan kullan, ister kendi islerine gore forkleyip duzenle.
+
+## Ozellikler
+
+- Turkce / Ingilizce dil destegi
+- Sistem uyumlu light / dark tema
+- Liquid glass arayuz detaylari
+- Video slider portfolyo alani
+- Sosyal baglanti bolumu
+- Mobil uyumlu responsive tasarim
+
+## Teknoloji Yigini
+
+- Next.js 16
+- React 19
+- TypeScript
+- Tailwind CSS 4
+- Framer Motion
+- Lucide React
+
+## Lokal Calistirma
+
+```bash
+npm install
+npm run dev
+```
+
+Tarayicida `http://localhost:3000` adresini ac.
+
+## Scriptler
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run build
+npm run start
+npm run lint
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Klasor Yapisi
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```txt
+src/
+  app/
+  components/
+    ui/
+  lib/
+public/
+  social/
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+One cikan dosyalar:
 
-## Learn More
+- `src/components/site-page.tsx`: Sayfa kompozisyonu
+- `src/components/navbar.tsx`: Ust navigasyon
+- `src/components/showreel-placeholder.tsx`: Video slider alani
+- `src/components/capabilities-grid.tsx`: Yetkinlik kartlari
+- `src/components/footer-cta.tsx`: Iletisim ve footer bolumu
+- `src/components/site-controls.tsx`: Dil ve tema kontrol paneli
+- `src/lib/site-copy.ts`: Cift dil metinleri
 
-To learn more about Next.js, take a look at the following resources:
+## Ozellestirme
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Bu yapi kolayca kisisellestirilebilir:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- `src/lib/site-copy.ts` icinden tum metinleri guncelleyebilirsin
+- `public/social/` altindan sosyal ikonlari degistirebilirsin
+- `src/components/showreel-placeholder.tsx` icinden video embed linklerini degistirebilirsin
+- `src/app/globals.css` icinden tema ve yuzey stillerini yeniden sekillendirebilirsin
 
-## Deploy on Vercel
+## Acik Kaynak Notu
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Bu repo acik kaynak bir portfolyo referansi olarak duzenlendi. Istersen kendi islerine uyarlayabilir, gelistirebilir ve yeniden tasarlayabilirsin.

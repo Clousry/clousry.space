@@ -1,26 +1,347 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: light dark;
+  --page-bg: #f5f5f7;
+  --body-wash: linear-gradient(180deg, rgba(255, 255, 255, 0.75) 0%, rgba(245, 245, 247, 0) 14%);
+  --card-bg: rgba(255, 255, 255, 0.94);
+  --card-contrast: #111111;
+  --text-primary: #0f1720;
+  --text-secondary: #5f6672;
+  --text-muted: #8f96a3;
+  --line-soft: rgba(15, 23, 32, 0.08);
+  --line-strong: rgba(255, 255, 255, 0.12);
+  --shadow-soft: 0 16px 40px rgba(15, 23, 32, 0.06);
+  --shadow-hover: 0 24px 60px rgba(15, 23, 32, 0.1);
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.7);
+  --glass-shadow: 0 12px 30px rgba(15, 23, 32, 0.06);
+  --liquid-surface:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.84), rgba(255, 255, 255, 0.58) 42%, rgba(237, 244, 255, 0.36) 100%);
+  --liquid-border: rgba(255, 255, 255, 0.82);
+  --liquid-highlight: rgba(255, 255, 255, 0.92);
+  --liquid-ridge: rgba(255, 255, 255, 0.42);
+  --liquid-shadow: 0 20px 44px rgba(15, 23, 32, 0.08);
+  --liquid-orb: radial-gradient(circle, rgba(255, 255, 255, 0.92), rgba(174, 208, 255, 0.28) 56%, transparent 74%);
+  --surface-soft: rgba(15, 23, 32, 0.03);
+  --surface-softer: rgba(15, 23, 32, 0.04);
+  --surface-strong: rgba(255, 255, 255, 0.78);
+  --surface-tint: rgba(255, 255, 255, 0.74);
+  --chip-bg: rgba(15, 23, 32, 0.05);
+  --button-primary-bg: #111111;
+  --button-primary-text: #ffffff;
+  --button-primary-shadow: 0 18px 35px rgba(0, 0, 0, 0.16);
+  --button-secondary-bg: rgba(255, 255, 255, 0.88);
+  --button-secondary-hover: #ffffff;
+  --button-secondary-shadow: 0 10px 24px rgba(15, 23, 32, 0.08);
+  --grid-line: rgba(15, 23, 32, 0.018);
+  --ambient-top: radial-gradient(circle at top, rgba(255, 255, 255, 0.92), rgba(245, 245, 247, 0) 64%);
+  --ambient-blur: radial-gradient(circle, rgba(255, 255, 255, 0.7), rgba(245, 245, 247, 0) 68%);
+  --spotlight-soft: radial-gradient(circle at top left, rgba(255, 255, 255, 0.95), rgba(245, 245, 247, 0) 52%);
+  --spotlight-card: radial-gradient(circle at top left, rgba(255, 255, 255, 0.88), transparent 60%);
+  --toolset-glow: radial-gradient(circle at top right, rgba(36, 63, 94, 0.08), transparent 42%);
+  --showreel-shell: linear-gradient(135deg, #22262a, #101113);
+  --showreel-overlay:
+    radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.1), transparent 28%),
+    radial-gradient(circle at 80% 60%, rgba(255, 255, 255, 0.08), transparent 30%);
+  --selection-bg: rgba(17, 17, 17, 0.12);
+  --focus-ring: rgba(15, 23, 32, 0.24);
+  --contact-card-border: rgba(45, 212, 191, 0.2);
+  --contact-card-bg: linear-gradient(180deg, rgba(244, 255, 252, 0.98), rgba(232, 250, 246, 0.98));
+  --contact-card-icon-bg: linear-gradient(135deg, rgba(16, 185, 129, 0.18), rgba(45, 212, 191, 0.14));
+  --contact-card-label: rgba(15, 23, 32, 0.56);
+  --contact-card-text: #0f1720;
+  --contact-card-arrow: rgba(15, 23, 32, 0.58);
+  --contact-shell-bg: linear-gradient(180deg, rgba(10, 16, 34, 0.98), rgba(6, 11, 24, 0.98));
+  --contact-shell-border: rgba(101, 163, 255, 0.18);
+  --contact-shell-shadow: 0 34px 90px rgba(6, 10, 22, 0.2);
+  --contact-shell-glow:
+    radial-gradient(circle at 16% 16%, rgba(80, 141, 255, 0.26), transparent 32%),
+    radial-gradient(circle at 84% 18%, rgba(34, 211, 238, 0.14), transparent 34%);
+  --contact-panel-bg: linear-gradient(180deg, rgba(20, 31, 61, 0.66), rgba(10, 16, 30, 0.84));
+  --contact-panel-border: rgba(255, 255, 255, 0.08);
+  --contact-kicker: rgba(139, 179, 255, 0.82);
+  --contact-title: #f5f8ff;
+  --contact-description: rgba(214, 224, 240, 0.76);
+  --contact-input-bg: rgba(255, 255, 255, 0.045);
+  --contact-input-border: rgba(255, 255, 255, 0.09);
+  --contact-input-border-focus: rgba(110, 192, 255, 0.55);
+  --contact-input-placeholder: rgba(214, 224, 240, 0.34);
+  --contact-button-bg: linear-gradient(90deg, #2563eb 0%, #22d3ee 100%);
+  --contact-button-text: #f8fbff;
+  --contact-bottom-border: rgba(255, 255, 255, 0.08);
+  --social-instagram-border: rgba(244, 114, 182, 0.14);
+  --social-instagram-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(255, 247, 251, 0.98));
+  --social-instagram-icon-bg: linear-gradient(135deg, rgba(244, 114, 182, 0.18), rgba(251, 146, 60, 0.14));
+  --social-linkedin-border: rgba(59, 130, 246, 0.14);
+  --social-linkedin-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(239, 246, 255, 0.98));
+  --social-linkedin-icon-bg: linear-gradient(135deg, rgba(59, 130, 246, 0.16), rgba(56, 189, 248, 0.12));
+  --social-behance-border: rgba(79, 70, 229, 0.14);
+  --social-behance-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(243, 244, 255, 0.98));
+  --social-behance-icon-bg: linear-gradient(135deg, rgba(79, 70, 229, 0.16), rgba(129, 140, 248, 0.12));
+}
+
+:root[data-theme="dark"] {
+    --page-bg: #0b0d10;
+    --body-wash: linear-gradient(180deg, rgba(255, 255, 255, 0.02) 0%, rgba(11, 13, 16, 0) 18%);
+    --card-bg: rgba(19, 22, 27, 0.86);
+    --card-contrast: #f2f4f8;
+    --text-primary: #f4f7fb;
+    --text-secondary: #adb6c4;
+    --text-muted: #7e8796;
+    --line-soft: rgba(255, 255, 255, 0.08);
+    --line-strong: rgba(255, 255, 255, 0.12);
+    --shadow-soft: 0 18px 44px rgba(0, 0, 0, 0.3);
+    --shadow-hover: 0 26px 70px rgba(0, 0, 0, 0.38);
+    --glass-bg: rgba(17, 20, 24, 0.72);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --glass-shadow: 0 16px 36px rgba(0, 0, 0, 0.28);
+    --liquid-surface:
+      linear-gradient(135deg, rgba(28, 34, 43, 0.82), rgba(18, 23, 30, 0.68) 46%, rgba(78, 116, 171, 0.16) 100%);
+    --liquid-border: rgba(255, 255, 255, 0.12);
+    --liquid-highlight: rgba(255, 255, 255, 0.18);
+    --liquid-ridge: rgba(255, 255, 255, 0.08);
+    --liquid-shadow: 0 24px 52px rgba(0, 0, 0, 0.34);
+    --liquid-orb: radial-gradient(circle, rgba(148, 163, 184, 0.26), rgba(59, 130, 246, 0.2) 56%, transparent 76%);
+    --surface-soft: rgba(255, 255, 255, 0.04);
+    --surface-softer: rgba(255, 255, 255, 0.05);
+    --surface-strong: rgba(18, 22, 27, 0.82);
+    --surface-tint: rgba(15, 19, 24, 0.78);
+    --chip-bg: rgba(255, 255, 255, 0.08);
+    --button-primary-bg: #f4f7fb;
+    --button-primary-text: #0f1720;
+    --button-primary-shadow: 0 18px 35px rgba(0, 0, 0, 0.28);
+    --button-secondary-bg: rgba(24, 28, 34, 0.92);
+    --button-secondary-hover: rgba(33, 38, 45, 0.96);
+    --button-secondary-shadow: 0 12px 26px rgba(0, 0, 0, 0.24);
+    --grid-line: rgba(255, 255, 255, 0.035);
+    --ambient-top: radial-gradient(circle at top, rgba(67, 83, 111, 0.34), rgba(11, 13, 16, 0) 64%);
+    --ambient-blur: radial-gradient(circle, rgba(71, 87, 117, 0.22), rgba(11, 13, 16, 0) 68%);
+    --spotlight-soft: radial-gradient(circle at top left, rgba(90, 110, 140, 0.18), rgba(11, 13, 16, 0) 52%);
+    --spotlight-card: radial-gradient(circle at top left, rgba(148, 163, 184, 0.16), transparent 60%);
+    --toolset-glow: radial-gradient(circle at top right, rgba(59, 130, 246, 0.16), transparent 42%);
+    --showreel-shell: linear-gradient(135deg, #101319, #060709);
+    --showreel-overlay:
+      radial-gradient(circle at 20% 20%, rgba(148, 163, 184, 0.18), transparent 28%),
+      radial-gradient(circle at 80% 60%, rgba(59, 130, 246, 0.14), transparent 30%);
+    --selection-bg: rgba(255, 255, 255, 0.16);
+    --focus-ring: rgba(244, 247, 251, 0.3);
+    --contact-card-border: rgba(45, 212, 191, 0.2);
+    --contact-card-bg: linear-gradient(180deg, rgba(9, 18, 22, 0.98), rgba(15, 32, 36, 0.98));
+    --contact-card-icon-bg: linear-gradient(135deg, rgba(16, 185, 129, 0.24), rgba(45, 212, 191, 0.18));
+    --contact-card-label: rgba(207, 250, 254, 0.68);
+    --contact-card-text: #ffffff;
+    --contact-card-arrow: rgba(207, 250, 254, 0.72);
+    --contact-shell-bg: linear-gradient(180deg, rgba(6, 10, 24, 0.98), rgba(3, 6, 18, 0.99));
+    --contact-shell-border: rgba(111, 159, 255, 0.2);
+    --contact-shell-shadow: 0 40px 100px rgba(0, 0, 0, 0.42);
+    --contact-shell-glow:
+      radial-gradient(circle at 16% 16%, rgba(59, 130, 246, 0.3), transparent 32%),
+      radial-gradient(circle at 84% 18%, rgba(34, 211, 238, 0.16), transparent 34%);
+    --contact-panel-bg: linear-gradient(180deg, rgba(16, 25, 47, 0.76), rgba(8, 13, 25, 0.9));
+    --contact-panel-border: rgba(255, 255, 255, 0.08);
+    --contact-kicker: rgba(132, 171, 255, 0.84);
+    --contact-title: #f7fbff;
+    --contact-description: rgba(209, 220, 240, 0.72);
+    --contact-input-bg: rgba(255, 255, 255, 0.04);
+    --contact-input-border: rgba(255, 255, 255, 0.09);
+    --contact-input-border-focus: rgba(96, 165, 250, 0.62);
+    --contact-input-placeholder: rgba(209, 220, 240, 0.32);
+    --contact-button-bg: linear-gradient(90deg, #2563eb 0%, #22d3ee 100%);
+    --contact-button-text: #f8fbff;
+    --contact-bottom-border: rgba(255, 255, 255, 0.08);
+    --social-instagram-border: rgba(244, 114, 182, 0.22);
+    --social-instagram-bg: linear-gradient(180deg, rgba(37, 20, 31, 0.9), rgba(26, 17, 24, 0.96));
+    --social-instagram-icon-bg: linear-gradient(135deg, rgba(244, 114, 182, 0.24), rgba(251, 146, 60, 0.18));
+    --social-linkedin-border: rgba(59, 130, 246, 0.22);
+    --social-linkedin-bg: linear-gradient(180deg, rgba(18, 28, 43, 0.9), rgba(14, 20, 33, 0.96));
+    --social-linkedin-icon-bg: linear-gradient(135deg, rgba(59, 130, 246, 0.22), rgba(56, 189, 248, 0.16));
+    --social-behance-border: rgba(129, 140, 248, 0.24);
+    --social-behance-bg: linear-gradient(180deg, rgba(24, 23, 48, 0.9), rgba(16, 16, 34, 0.96));
+    --social-behance-icon-bg: linear-gradient(135deg, rgba(99, 102, 241, 0.24), rgba(129, 140, 248, 0.16));
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-inter);
+  --color-background: var(--page-bg);
+  --color-foreground: var(--text-primary);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--page-bg);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  min-height: 100vh;
+  background: var(--body-wash), var(--page-bg);
+  color: var(--text-primary);
+  font-family: var(--font-inter), sans-serif;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background: var(--selection-bg);
+  color: var(--text-primary);
+}
+
+a,
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 3px;
+}
+
+.glass-panel {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+}
+
+.glass-button {
+  background: var(--button-secondary-bg);
+  border: 1px solid var(--line-soft);
+  box-shadow: var(--button-secondary-shadow);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.liquid-panel,
+.liquid-pill {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: var(--liquid-surface);
+  border: 1px solid var(--liquid-border);
+  box-shadow:
+    var(--liquid-shadow),
+    inset 0 1px 0 var(--liquid-highlight),
+    inset 0 -1px 0 var(--liquid-ridge);
+  backdrop-filter: blur(28px) saturate(165%);
+  -webkit-backdrop-filter: blur(28px) saturate(165%);
+}
+
+.liquid-panel::before,
+.liquid-pill::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.5) 0%,
+    rgba(255, 255, 255, 0.12) 42%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  opacity: 0.76;
+}
+
+.liquid-panel::after,
+.liquid-pill::after {
+  content: "";
+  position: absolute;
+  top: -38%;
+  right: -10%;
+  width: 46%;
+  height: 82%;
+  border-radius: 999px;
+  pointer-events: none;
+  background: var(--liquid-orb);
+  filter: blur(14px);
+  opacity: 0.78;
+}
+
+.liquid-panel > *,
+.liquid-pill > * {
+  position: relative;
+  z-index: 1;
+}
+
+.liquid-pill::after {
+  top: -52%;
+  right: -20%;
+  width: 56%;
+  height: 120%;
+}
+
+.primary-button {
+  background: var(--button-primary-bg);
+  color: var(--button-primary-text);
+  box-shadow: var(--button-primary-shadow);
+}
+
+.soft-card {
+  background: var(--card-bg);
+  border: 1px solid var(--line-soft);
+  box-shadow: var(--shadow-soft);
+}
+
+.page-grid {
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-position: center;
+  background-size: 96px 96px;
+}
+
+.page-ambient-top {
+  background: var(--ambient-top);
+}
+
+.page-ambient-blur {
+  background: var(--ambient-blur);
+}
+
+.soft-spotlight {
+  background: var(--spotlight-soft);
+}
+
+.card-spotlight {
+  background: var(--spotlight-card);
+}
+
+.showreel-shell {
+  background: var(--showreel-shell);
+}
+
+.showreel-overlay {
+  background: var(--showreel-overlay);
+}
+
+.balanced-text {
+  text-wrap: balance;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
