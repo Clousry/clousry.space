@@ -135,16 +135,20 @@ function subscribeToSystemTheme(listener: () => void) {
 }
 
 export function SitePage() {
-  const locale = useSyncExternalStore(subscribeToLocale, getStoredLocaleSnapshot, () => "en");
-  const themePreference = useSyncExternalStore(
+  const locale = useSyncExternalStore<Locale>(
+    subscribeToLocale,
+    getStoredLocaleSnapshot,
+    (): Locale => "en",
+  );
+  const themePreference = useSyncExternalStore<ThemePreference>(
     subscribeToThemePreference,
     getStoredThemePreferenceSnapshot,
-    () => "system",
+    (): ThemePreference => "system",
   );
-  const systemTheme = useSyncExternalStore(
+  const systemTheme = useSyncExternalStore<Theme>(
     subscribeToSystemTheme,
     getSystemThemeSnapshot,
-    () => "light",
+    (): Theme => "light",
   );
   const theme = themePreference === "system" ? systemTheme : themePreference;
   const copy = siteCopy[locale];
