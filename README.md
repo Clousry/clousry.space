@@ -88,6 +88,8 @@ Key files:
 - Swap the showreel area with a real embed in `src/components/showreel-placeholder.tsx`
 - Adjust theme variables in `src/app/globals.css`
 
-## License Note
+## License
 
-This repository is shared as an open personal portfolio reference and can be adapted for your own work.
+Source code in this repository is licensed under the GNU GPL v3.0. See `LICENSE` for the full license text.
+
+All brand assets, logos, portfolio visuals, and written content remain the property of CLOUSRY unless otherwise stated.
