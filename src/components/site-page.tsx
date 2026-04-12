@@ -29,7 +29,13 @@ function getStoredLocaleSnapshot(): Locale {
 
   const savedLocale = window.localStorage.getItem(LOCALE_STORAGE_KEY);
 
-  return savedLocale === "tr" || savedLocale === "en" ? savedLocale : "en";
+   if (savedLocale === "tr" || savedLocale === "en") {
+    return savedLocale;
+  }
+
+  const browserLanguage = window.navigator.language.toLowerCase();
+
+  return browserLanguage.startsWith("tr") ? "tr" : "en";
 }
 
 function subscribeToLocale(listener: () => void) {
