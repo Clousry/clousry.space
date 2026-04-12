@@ -136,6 +136,9 @@ export const siteCopy = {
         emailPlaceholder: "email@example.com",
         messagePlaceholder: "Tell me about your project",
         submitLabel: "Send Brief",
+        sendingLabel: "Sending...",
+        successMessage: "Your message has been sent successfully.",
+        errorMessage: "Something went wrong. Please try again.",
       },
       highlights: [
         {
@@ -306,6 +309,9 @@ export const siteCopy = {
         emailPlaceholder: "eposta@ornek.com",
         messagePlaceholder: "Projenizden bahsedin",
         submitLabel: "Mesajı Gönder",
+        sendingLabel: "Gönderiliyor...",
+        successMessage: "Form gönderildi. En kısa sürede dönüş yapacağım.",
+        errorMessage: "Bir hata oluştu. Lütfen tekrar deneyin.",
       },
       highlights: [
         {

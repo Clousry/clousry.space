@@ -1,5 +1,6 @@
 "use client";
 
+import { FormEvent, useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { ArrowUpRight, Clock3, Mail } from "lucide-react";
@@ -30,6 +31,40 @@ type FooterCtaProps = {
 
 export function FooterCta({ content, theme }: FooterCtaProps) {
   const quickInfo = content.highlights.slice(0, 2);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitState, setSubmitState] = useState<"idle" | "success" | "error">("idle");
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+
+    setIsSubmitting(true);
+    setSubmitState("idle");
+
+    try {
+      const response = await fetch("https://formspree.io/f/xdayneoq", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+        },
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error("Request failed");
+      }
+
+      form.reset();
+      setSubmitState("success");
+    } catch {
+      setSubmitState("error");
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
+
   return (
     <motion.footer
       id="contact"
@@ -115,8 +150,7 @@ export function FooterCta({ content, theme }: FooterCtaProps) {
               </p>
 
               <form
-                action="https://formspree.io/f/xdayneoq"
-                method="POST"
+                onSubmit={handleSubmit}
                 className="mt-6 grid gap-5"
               >
                 <input type="hidden" name="_subject" value="New portfolio inquiry" />
@@ -162,10 +196,23 @@ export function FooterCta({ content, theme }: FooterCtaProps) {
 
                 <button
                   type="submit"
+                  disabled={isSubmitting}
                   className="primary-button mt-1 inline-flex min-h-14 items-center justify-center rounded-full px-5 text-sm font-medium tracking-[0.02em] transition-transform duration-300 hover:-translate-y-0.5"
                 >
-                  {content.form.submitLabel}
+                  {isSubmitting ? content.form.sendingLabel : content.form.submitLabel}
                 </button>
+
+                {submitState === "success" ? (
+                  <p className="text-sm leading-6 text-emerald-500">
+                    {content.form.successMessage}
+                  </p>
+                ) : null}
+
+                {submitState === "error" ? (
+                  <p className="text-sm leading-6 text-rose-500">
+                    {content.form.errorMessage}
+                  </p>
+                ) : null}
               </form>
             </BentoCard>
           </div>
