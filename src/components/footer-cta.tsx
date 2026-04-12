@@ -114,13 +114,21 @@ export function FooterCta({ content, theme }: FooterCtaProps) {
                 {content.form.title}
               </p>
 
-              <form className="mt-6 grid gap-5">
+              <form
+                action="https://formspree.io/f/xdayneoq"
+                method="POST"
+                className="mt-6 grid gap-5"
+              >
+                <input type="hidden" name="_subject" value="New portfolio inquiry" />
+
                 <label className="grid gap-2.5">
                   <span className="text-[0.72rem] font-medium uppercase tracking-[0.24em] text-[var(--text-muted)]">
                     {content.form.nameLabel}
                   </span>
                   <input
+                    name="name"
                     type="text"
+                    required
                     placeholder={content.form.namePlaceholder}
                     className="min-h-14 w-full rounded-[18px] border border-[color:var(--line-soft)] bg-[var(--surface-soft)] px-5 text-sm text-[var(--text-primary)] outline-none transition-colors placeholder:text-[var(--text-muted)] focus:border-[color:var(--focus-ring)]"
                   />
@@ -131,7 +139,9 @@ export function FooterCta({ content, theme }: FooterCtaProps) {
                     {content.form.emailLabel}
                   </span>
                   <input
+                    name="email"
                     type="email"
+                    required
                     placeholder={content.form.emailPlaceholder}
                     className="min-h-14 w-full rounded-[18px] border border-[color:var(--line-soft)] bg-[var(--surface-soft)] px-5 text-sm text-[var(--text-primary)] outline-none transition-colors placeholder:text-[var(--text-muted)] focus:border-[color:var(--focus-ring)]"
                   />
@@ -142,6 +152,8 @@ export function FooterCta({ content, theme }: FooterCtaProps) {
                     {content.form.messageLabel}
                   </span>
                   <textarea
+                    name="message"
+                    required
                     placeholder={content.form.messagePlaceholder}
                     rows={5}
                     className="min-h-40 w-full resize-none rounded-[18px] border border-[color:var(--line-soft)] bg-[var(--surface-soft)] px-5 py-4 text-sm text-[var(--text-primary)] outline-none transition-colors placeholder:text-[var(--text-muted)] focus:border-[color:var(--focus-ring)]"
@@ -149,7 +161,7 @@ export function FooterCta({ content, theme }: FooterCtaProps) {
                 </label>
 
                 <button
-                  type="button"
+                  type="submit"
                   className="primary-button mt-1 inline-flex min-h-14 items-center justify-center rounded-full px-5 text-sm font-medium tracking-[0.02em] transition-transform duration-300 hover:-translate-y-0.5"
                 >
                   {content.form.submitLabel}
