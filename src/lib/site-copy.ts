@@ -139,6 +139,7 @@ export const siteCopy = {
         sendingLabel: "Sending...",
         successMessage: "Your message has been sent successfully.",
         errorMessage: "Something went wrong. Please try again.",
+        invalidEmailMessage: "Please enter a valid email address.",
       },
       highlights: [
         {
@@ -312,6 +313,7 @@ export const siteCopy = {
         sendingLabel: "Gönderiliyor...",
         successMessage: "Form gönderildi. En kısa sürede dönüş yapacağım.",
         errorMessage: "Bir hata oluştu. Lütfen tekrar deneyin.",
+        invalidEmailMessage: "Lütfen geçerli bir e-posta adresi girin.",
       },
       highlights: [
         {

@@ -24,6 +24,25 @@ const socialChannels = [
   },
 ] as const;
 
+const disposableEmailDomains = new Set([
+  "10minutemail.com",
+  "10minutemail.net",
+  "20minutemail.com",
+  "dispostable.com",
+  "fakeinbox.com",
+  "getairmail.com",
+  "guerrillamail.com",
+  "maildrop.cc",
+  "mailinator.com",
+  "moakt.com",
+  "sharklasers.com",
+  "temp-mail.org",
+  "tempmail.com",
+  "tempmailo.com",
+  "throwawaymail.com",
+  "yopmail.com",
+]);
+
 type FooterCtaProps = {
   content: SiteCopy["footer"];
   theme: "light" | "dark";
@@ -33,15 +52,50 @@ export function FooterCta({ content, theme }: FooterCtaProps) {
   const quickInfo = content.highlights.slice(0, 2);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitState, setSubmitState] = useState<"idle" | "success" | "error">("idle");
+  const [emailError, setEmailError] = useState<string | null>(null);
+
+  function validateEmail(value: string) {
+    const normalizedEmail = value.trim().toLowerCase();
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailPattern.test(normalizedEmail)) {
+      return false;
+    }
+
+    const domain = normalizedEmail.split("@")[1];
+
+    if (!domain || disposableEmailDomains.has(domain)) {
+      return false;
+    }
+
+    if (
+      domain.includes("temp") ||
+      domain.includes("fake") ||
+      domain.includes("trash") ||
+      domain.includes("disposable")
+    ) {
+      return false;
+    }
+
+    return true;
+  }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     const form = event.currentTarget;
     const formData = new FormData(form);
+    const email = formData.get("email");
+
+    if (typeof email !== "string" || !validateEmail(email)) {
+      setSubmitState("idle");
+      setEmailError(content.form.invalidEmailMessage);
+      return;
+    }
 
     setIsSubmitting(true);
     setSubmitState("idle");
+    setEmailError(null);
 
     try {
       const response = await fetch("https://formspree.io/f/xdayneoq", {
@@ -177,9 +231,18 @@ export function FooterCta({ content, theme }: FooterCtaProps) {
                     type="email"
                     required
                     placeholder={content.form.emailPlaceholder}
+                    onChange={() => {
+                      if (emailError) {
+                        setEmailError(null);
+                      }
+                    }}
                     className="min-h-14 w-full rounded-[18px] border border-[color:var(--line-soft)] bg-[var(--surface-soft)] px-5 text-sm text-[var(--text-primary)] outline-none transition-colors placeholder:text-[var(--text-muted)] focus:border-[color:var(--focus-ring)]"
                   />
                 </label>
+
+                {emailError ? (
+                  <p className="-mt-2 text-sm leading-6 text-rose-500">{emailError}</p>
+                ) : null}
 
                 <label className="grid gap-2.5">
                   <span className="text-[0.72rem] font-medium uppercase tracking-[0.24em] text-[var(--text-muted)]">
