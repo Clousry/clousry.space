@@ -128,7 +128,7 @@ export function FooterCta({ content, theme }: FooterCtaProps) {
       transition={{ duration: 0.8, ease: easeCurve }}
       className="px-4 pb-28 pt-16 sm:px-6 sm:pb-10 sm:pt-24 lg:px-8"
     >
-      <div className="glass-panel liquid-panel relative mx-auto max-w-7xl overflow-hidden rounded-[32px] shadow-[var(--shadow-soft)]">
+      <div className="liquid-panel relative mx-auto max-w-7xl overflow-hidden rounded-[32px] shadow-[var(--shadow-soft)]">
         <div className="soft-spotlight pointer-events-none absolute inset-0" />
 
         <div className="relative grid gap-8 px-6 py-8 sm:px-10 sm:py-10 lg:grid-cols-[minmax(0,1fr)_minmax(320px,0.88fr)] lg:gap-10 lg:px-12 lg:py-12">

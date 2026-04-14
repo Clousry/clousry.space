@@ -1,23 +1,57 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import type { SiteCopy } from "@/lib/site-copy";
 
 const easeCurve = [0.22, 1, 0.36, 1] as const;
+const showNavbarOffset = 56;
+
+const navbarMotion = {
+  hidden: {
+    opacity: 0,
+    y: -24,
+    visibility: "hidden" as const,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    visibility: "visible" as const,
+  },
+};
 
 type NavbarProps = {
   content: SiteCopy["navbar"];
 };
 
 export function Navbar({ content }: NavbarProps) {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const updateVisibility = () => {
+      setIsVisible(window.scrollY > showNavbarOffset);
+    };
+
+    updateVisibility();
+    window.addEventListener("scroll", updateVisibility, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", updateVisibility);
+    };
+  }, []);
+
   return (
     <motion.header
-      initial={{ y: -18, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.65, ease: easeCurve }}
-      className="sticky top-4 z-50 px-4 sm:px-6 lg:px-8"
+      initial="hidden"
+      animate={isVisible ? "visible" : "hidden"}
+      variants={navbarMotion}
+      transition={{ duration: 0.35, ease: easeCurve }}
+      className="fixed inset-x-0 top-4 z-50 px-4 sm:px-6 lg:px-8"
+      style={{
+        pointerEvents: isVisible ? "auto" : "none",
+      }}
     >
-      <div className="glass-panel liquid-panel mx-auto flex w-full max-w-7xl flex-col gap-3 rounded-[28px] px-4 py-3 sm:grid sm:grid-cols-[auto_1fr_auto] sm:items-center sm:gap-0 sm:rounded-full sm:px-5 sm:py-2">
+      <div className="liquid-panel mx-auto flex w-full max-w-7xl flex-col gap-3 rounded-[28px] px-4 py-3 sm:grid sm:grid-cols-[auto_1fr_auto] sm:items-center sm:gap-0 sm:rounded-full sm:px-5 sm:py-2">
         <div className="flex items-center gap-3 sm:gap-6">
           <a
             href="#top"

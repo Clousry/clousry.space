@@ -3,6 +3,27 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 
 const siteUrl = "https://clousry.space";
+const themeBootstrapScript = `
+(() => {
+  try {
+    const storageKey = "clousry-theme";
+    const savedTheme = window.localStorage.getItem(storageKey);
+    const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    const resolvedTheme = savedTheme === "light" || savedTheme === "dark" ? savedTheme : systemTheme;
+    const isAndroid = /android/i.test(window.navigator.userAgent);
+    const supportsBackdrop =
+      window.CSS?.supports?.("backdrop-filter: blur(1px)") ||
+      window.CSS?.supports?.("-webkit-backdrop-filter: blur(1px)");
+    document.documentElement.dataset.theme = resolvedTheme;
+    document.documentElement.dataset.platform = isAndroid ? "android" : "default";
+    document.documentElement.dataset.backdrop = supportsBackdrop ? "supported" : "unsupported";
+  } catch {
+    document.documentElement.dataset.theme = "light";
+    document.documentElement.dataset.platform = "default";
+    document.documentElement.dataset.backdrop = "unsupported";
+  }
+})();
+`;
 
 const inter = Inter({
   subsets: ["latin"],
@@ -44,8 +65,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} scroll-smooth`}>
-      <body suppressHydrationWarning>{children}</body>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${inter.variable} scroll-smooth`}
+    >
+      <body suppressHydrationWarning>
+        <script dangerouslySetInnerHTML={{ __html: themeBootstrapScript }} />
+        {children}
+      </body>
     </html>
   );
 }

@@ -168,7 +168,7 @@ export function SitePage() {
   }, [theme]);
 
   return (
-    <div className="relative min-h-screen overflow-x-clip bg-[var(--page-bg)] text-[var(--text-primary)]">
+    <div className="relative min-h-screen overflow-x-hidden bg-[var(--page-bg)] text-[var(--text-primary)]">
       <div className="page-grid pointer-events-none absolute inset-0 opacity-[0.45]" />
       <div className="page-ambient-top pointer-events-none absolute inset-x-0 top-0 h-[32rem]" />
       <div className="page-ambient-blur pointer-events-none absolute inset-x-0 top-40 mx-auto h-80 max-w-6xl rounded-full blur-3xl" />

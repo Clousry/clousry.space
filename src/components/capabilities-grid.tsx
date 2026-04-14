@@ -83,7 +83,7 @@ export function CapabilitiesGrid({ content }: CapabilitiesGridProps) {
               {content.softwareItems.map(({ code, description, focus, name }) => (
                 <div
                   key={code}
-                  className="rounded-[24px] border border-[color:var(--line-soft)] bg-[var(--surface-strong)] p-4 backdrop-blur-sm"
+                  className="glass-soft-card rounded-[24px] p-4"
                 >
                   <div className="flex items-start justify-between gap-3">
                     <div

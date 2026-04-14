@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  color-scheme: light dark;
+  color-scheme: light;
   --page-bg: #f5f5f7;
   --body-wash: linear-gradient(180deg, rgba(255, 255, 255, 0.75) 0%, rgba(245, 245, 247, 0) 14%);
   --card-bg: rgba(255, 255, 255, 0.94);
@@ -22,6 +22,8 @@
   --liquid-highlight: rgba(255, 255, 255, 0.92);
   --liquid-ridge: rgba(255, 255, 255, 0.42);
   --liquid-shadow: 0 20px 44px rgba(15, 23, 32, 0.08);
+  --liquid-gloss:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.12) 42%, rgba(255, 255, 255, 0) 100%);
   --liquid-orb: radial-gradient(circle, rgba(255, 255, 255, 0.92), rgba(174, 208, 255, 0.28) 56%, transparent 74%);
   --surface-soft: rgba(15, 23, 32, 0.03);
   --surface-softer: rgba(15, 23, 32, 0.04);
@@ -82,6 +84,7 @@
 }
 
 :root[data-theme="dark"] {
+    color-scheme: dark;
     --page-bg: #0b0d10;
     --body-wash: linear-gradient(180deg, rgba(255, 255, 255, 0.02) 0%, rgba(11, 13, 16, 0) 18%);
     --card-bg: rgba(19, 22, 27, 0.86);
@@ -102,6 +105,8 @@
     --liquid-highlight: rgba(255, 255, 255, 0.18);
     --liquid-ridge: rgba(255, 255, 255, 0.08);
     --liquid-shadow: 0 24px 52px rgba(0, 0, 0, 0.34);
+    --liquid-gloss:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.05) 42%, rgba(255, 255, 255, 0.01) 100%);
     --liquid-orb: radial-gradient(circle, rgba(148, 163, 184, 0.26), rgba(59, 130, 246, 0.2) 56%, transparent 76%);
     --surface-soft: rgba(255, 255, 255, 0.04);
     --surface-softer: rgba(255, 255, 255, 0.05);
@@ -201,24 +206,70 @@ button {
 }
 
 .glass-panel {
+  position: relative;
+  z-index: 0;
+  isolation: isolate;
+  overflow: hidden;
   background: var(--glass-bg);
   border: 1px solid var(--glass-border);
   box-shadow: var(--glass-shadow);
-  backdrop-filter: blur(22px);
-  -webkit-backdrop-filter: blur(22px);
+  backdrop-filter: blur(22px) saturate(160%);
+  -webkit-backdrop-filter: blur(22px) saturate(160%);
 }
 
 .glass-button {
+  position: relative;
+  z-index: 0;
+  isolation: isolate;
+  overflow: hidden;
   background: var(--button-secondary-bg);
   border: 1px solid var(--line-soft);
   box-shadow: var(--button-secondary-shadow);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px) saturate(155%);
+  -webkit-backdrop-filter: blur(18px) saturate(155%);
+}
+
+.glass-soft-card {
+  position: relative;
+  z-index: 0;
+  isolation: isolate;
+  overflow: hidden;
+  background: var(--surface-strong);
+  border: 1px solid var(--line-soft);
+  backdrop-filter: blur(12px) saturate(145%);
+  -webkit-backdrop-filter: blur(12px) saturate(145%);
+}
+
+.glass-panel::before,
+.glass-button::before,
+.glass-soft-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  background-clip: padding-box;
+}
+
+.glass-panel::before {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.04));
+}
+
+.glass-button::before {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.04));
+}
+
+.glass-soft-card::before {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.04));
 }
 
 .liquid-panel,
 .liquid-pill {
   position: relative;
+  z-index: 0;
   isolation: isolate;
   overflow: hidden;
   background: var(--liquid-surface);
@@ -236,14 +287,12 @@ button {
   content: "";
   position: absolute;
   inset: 0;
+  z-index: 0;
   pointer-events: none;
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.5) 0%,
-    rgba(255, 255, 255, 0.12) 42%,
-    rgba(255, 255, 255, 0) 100%
-  );
-  opacity: 0.76;
+  border-radius: inherit;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  background: var(--liquid-gloss);
 }
 
 .liquid-panel::after,
@@ -254,6 +303,7 @@ button {
   right: -10%;
   width: 46%;
   height: 82%;
+  z-index: 0;
   border-radius: 999px;
   pointer-events: none;
   background: var(--liquid-orb);
@@ -262,7 +312,10 @@ button {
 }
 
 .liquid-panel > *,
-.liquid-pill > * {
+.liquid-pill > *,
+.glass-panel > *,
+.glass-button > *,
+.glass-soft-card > * {
   position: relative;
   z-index: 1;
 }
@@ -278,6 +331,55 @@ button {
   background: var(--button-primary-bg);
   color: var(--button-primary-text);
   box-shadow: var(--button-primary-shadow);
+}
+
+:root[data-platform="android"] .glass-panel,
+:root[data-platform="android"] .glass-button,
+:root[data-platform="android"] .glass-soft-card,
+:root[data-platform="android"] .liquid-panel,
+:root[data-platform="android"] .liquid-pill {
+  backdrop-filter: blur(30px) saturate(185%);
+  -webkit-backdrop-filter: blur(30px) saturate(185%);
+}
+
+:root[data-platform="android"] .glass-panel,
+:root[data-platform="android"] .glass-button,
+:root[data-platform="android"] .glass-soft-card {
+  box-shadow:
+    var(--glass-shadow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18);
+}
+
+:root[data-platform="android"][data-theme="light"] .glass-panel,
+:root[data-platform="android"][data-theme="light"] .glass-button,
+:root[data-platform="android"][data-theme="light"] .glass-soft-card {
+  background: rgba(255, 255, 255, 0.78);
+}
+
+:root[data-platform="android"][data-theme="dark"] .glass-panel,
+:root[data-platform="android"][data-theme="dark"] .glass-button,
+:root[data-platform="android"][data-theme="dark"] .glass-soft-card {
+  background: rgba(18, 22, 28, 0.78);
+}
+
+:root[data-backdrop="unsupported"] .glass-panel,
+:root[data-backdrop="unsupported"] .glass-button,
+:root[data-backdrop="unsupported"] .glass-soft-card,
+:root[data-backdrop="unsupported"] .liquid-panel,
+:root[data-backdrop="unsupported"] .liquid-pill {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+:root[data-backdrop="unsupported"] .glass-panel::before,
+:root[data-backdrop="unsupported"] .glass-button::before,
+:root[data-backdrop="unsupported"] .glass-soft-card::before {
+  opacity: 0.9;
+}
+
+:root[data-backdrop="unsupported"] .liquid-panel::before,
+:root[data-backdrop="unsupported"] .liquid-pill::before {
+  opacity: 0.94;
 }
 
 .soft-card {
