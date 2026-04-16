@@ -51,37 +51,34 @@ export function Navbar({ content }: NavbarProps) {
         pointerEvents: isVisible ? "auto" : "none",
       }}
     >
-      <div className="liquid-panel mx-auto flex w-full max-w-sm flex-col gap-3 rounded-[28px] px-4 py-3 sm:grid sm:grid-cols-[auto_1fr_auto] sm:max-w-7xl sm:items-center sm:gap-0 sm:rounded-full sm:px-5 sm:py-2">
-        <div className="flex items-center gap-3 sm:gap-6">
-          <a
-            href="#top"
-            aria-label={content.homeLabel}
-            className="text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-[var(--text-primary)] sm:text-[0.78rem]"
-          >
-            Project : CLOUSRY&apos;S SPACE
-          </a>
-        </div>
+      <div className="liquid-panel mx-auto flex w-full max-w-7xl items-center justify-between gap-3 rounded-full px-4 py-2 sm:px-5">
+        <a
+          href="#top"
+          aria-label={content.homeLabel}
+          className="shrink-0 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-[var(--text-primary)] sm:text-[0.78rem] sm:tracking-[0.2em]"
+        >
+          <span className="sm:hidden">CLOUSRY</span>
+          <span className="hidden sm:inline">Project : CLOUSRY&apos;S SPACE</span>
+        </a>
 
-        <nav className="flex items-center justify-center gap-1 sm:justify-center md:flex">
+        <nav className="flex items-center gap-0.5 sm:gap-1">
           {content.navItems.map(({ href, label }) => (
             <a
               key={href}
               href={href}
-              className="inline-flex h-10 items-center justify-center rounded-full px-3 text-[0.66rem] font-semibold uppercase tracking-[0.18em] text-[var(--text-secondary)] transition-all duration-300 hover:bg-[var(--surface-soft)] hover:text-[var(--text-primary)] sm:px-4 sm:text-[0.72rem]"
+              className="inline-flex h-8 items-center justify-center rounded-full px-2 text-[0.56rem] font-semibold uppercase tracking-[0.12em] text-[var(--text-secondary)] transition-all duration-300 hover:bg-[var(--surface-soft)] hover:text-[var(--text-primary)] sm:h-10 sm:px-4 sm:text-[0.72rem] sm:tracking-[0.18em]"
             >
               {label}
             </a>
           ))}
         </nav>
 
-        <div className="flex items-center justify-center gap-2 sm:justify-end">
-          <a
-            href="#contact"
-            className="glass-button inline-flex h-11 items-center justify-center rounded-full px-4 text-sm font-medium tracking-[-0.02em] text-[var(--text-primary)] transition-all duration-300 hover:translate-y-[-1px]"
-          >
-            {content.contactCta}
-          </a>
-        </div>
+        <a
+          href="#contact"
+          className="glass-button inline-flex h-9 shrink-0 items-center justify-center rounded-full px-3.5 text-[0.68rem] font-medium tracking-[-0.01em] text-[var(--text-primary)] transition-all duration-300 hover:translate-y-[-1px] sm:h-11 sm:px-4 sm:text-sm sm:tracking-[-0.02em]"
+        >
+          {content.contactCta}
+        </a>
       </div>
     </motion.header>
   );
