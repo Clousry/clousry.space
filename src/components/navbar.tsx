@@ -51,7 +51,7 @@ export function Navbar({ content }: NavbarProps) {
         pointerEvents: isVisible ? "auto" : "none",
       }}
     >
-      <div className="liquid-panel mx-auto flex w-full max-w-7xl flex-col gap-3 rounded-[28px] px-4 py-3 sm:grid sm:grid-cols-[auto_1fr_auto] sm:items-center sm:gap-0 sm:rounded-full sm:px-5 sm:py-2">
+      <div className="liquid-panel mx-auto flex w-full max-w-sm flex-col gap-3 rounded-[28px] px-4 py-3 sm:grid sm:grid-cols-[auto_1fr_auto] sm:max-w-7xl sm:items-center sm:gap-0 sm:rounded-full sm:px-5 sm:py-2">
         <div className="flex items-center gap-3 sm:gap-6">
           <a
             href="#top"

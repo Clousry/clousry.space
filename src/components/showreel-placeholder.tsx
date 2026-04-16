@@ -1,8 +1,8 @@
 "use client";
 
-import { type TouchEvent, useRef, useState } from "react";
+import { type TouchEvent, useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowLeftRight, ChevronLeft, ChevronRight, Play } from "lucide-react";
+import { ChevronLeft, ChevronRight, Play } from "lucide-react";
 import type { SiteCopy } from "@/lib/site-copy";
 
 const easeCurve = [0.22, 1, 0.36, 1] as const;
@@ -20,29 +20,137 @@ const portfolioFilms = [
   },
 ] as const;
 
+const lastFilmIndex = portfolioFilms.length - 1;
+const loopedPortfolioFilms = [
+  {
+    ...portfolioFilms[lastFilmIndex],
+    actualIndex: lastFilmIndex,
+    key: `loop-clone-start-${lastFilmIndex}`,
+  },
+  ...portfolioFilms.map((film, index) => ({
+    ...film,
+    actualIndex: index,
+    key: `loop-slide-${index}`,
+  })),
+  {
+    ...portfolioFilms[0],
+    actualIndex: 0,
+    key: "loop-clone-end-0",
+  },
+];
+
+const escapeHtmlAttribute = (value: string) =>
+  value
+    .replaceAll("&", "&amp;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;");
+
+const getVideoIdFromEmbedSrc = (embedSrc: string) => {
+  try {
+    const { pathname } = new URL(embedSrc);
+
+    return pathname.split("/").filter(Boolean).at(-1) ?? "";
+  } catch {
+    return "";
+  }
+};
+
+const buildEmbedPreview = (embedSrc: string, title: string) => {
+  const videoId = getVideoIdFromEmbedSrc(embedSrc);
+  const playSrc = `${embedSrc}${embedSrc.includes("?") ? "&" : "?"}autoplay=1&playsinline=1`;
+  const safeTitle = escapeHtmlAttribute(title);
+
+  const posterMaxres = videoId
+    ? `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`
+    : "";
+  const posterHq = videoId
+    ? `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`
+    : "";
+  const posterMq = videoId
+    ? `https://i.ytimg.com/vi/${videoId}/mqdefault.jpg`
+    : "";
+
+  return `<!DOCTYPE html>
+<html lang="en">
+  <head><style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    html,body{width:100%;height:100%;overflow:hidden;background:#05070b}
+    .wrap{position:relative;display:flex;width:100%;height:100%;align-items:center;justify-content:center;text-decoration:none;overflow:hidden}
+    .poster{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center}
+    .overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(6,9,14,0.12),rgba(4,6,10,0.36))}
+    .play{position:relative;z-index:2;display:flex;align-items:center;justify-content:center;width:72px;height:72px;border-radius:999px;background:rgba(10,14,20,0.72);border:1px solid rgba(255,255,255,0.12);box-shadow:0 18px 42px rgba(0,0,0,0.32);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);transition:transform 0.2s ease}
+    .wrap:hover .play{transform:scale(1.08)}
+  </style></head>
+  <body>
+    <a class="wrap" href="${playSrc}" aria-label="Play ${safeTitle}">
+      ${posterMaxres ? `<img class="poster" src="${posterMaxres}" alt="" onerror="this.onerror=function(){this.onerror=null;this.src='${posterMq}'};this.src='${posterHq}'" />` : ""}
+      <div class="overlay"></div>
+      <span class="play">
+        <svg viewBox="0 0 24 24" aria-hidden="true" width="30" height="30" fill="#f5f7fa" style="margin-left:3px;">
+          <path d="M8 5.14v13.72L19 12 8 5.14Z"></path>
+        </svg>
+      </span>
+    </a>
+  </body>
+</html>`;
+};
+
 type ShowreelPlaceholderProps = {
   content: SiteCopy["showreel"];
 };
 
 export function ShowreelPlaceholder({ content }: ShowreelPlaceholderProps) {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [loadedSlides, setLoadedSlides] = useState([0]);
+  const [trackIndex, setTrackIndex] = useState(1);
+  const [loadedSlides, setLoadedSlides] = useState(() => new Set([0]));
+  const [isTrackTransitionEnabled, setIsTrackTransitionEnabled] = useState(true);
   const touchStartXRef = useRef<number | null>(null);
   const touchStartYRef = useRef<number | null>(null);
   const touchStartTimeRef = useRef<number | null>(null);
   const touchDeltaXRef = useRef(0);
   const touchDeltaYRef = useRef(0);
+  const activeIndex = loopedPortfolioFilms[trackIndex]?.actualIndex ?? 0;
+
+  useEffect(() => {
+    if (isTrackTransitionEnabled) {
+      return;
+    }
+
+    const animationFrameId = window.requestAnimationFrame(() => {
+      setIsTrackTransitionEnabled(true);
+    });
+
+    return () => {
+      window.cancelAnimationFrame(animationFrameId);
+    };
+  }, [isTrackTransitionEnabled]);
+
+  const markSlideAsLoaded = (slideIndex: number) => {
+    setLoadedSlides((currentSlides) => {
+      if (currentSlides.has(slideIndex)) {
+        return currentSlides;
+      }
+
+      const next = new Set(currentSlides);
+      next.add(slideIndex);
+      return next;
+    });
+  };
+
+  const moveToTrackIndex = (nextTrackIndex: number) => {
+    const nextSlide = loopedPortfolioFilms[nextTrackIndex];
+
+    if (!nextSlide) {
+      return;
+    }
+
+    markSlideAsLoaded(nextSlide.actualIndex);
+    setIsTrackTransitionEnabled(true);
+    setTrackIndex(nextTrackIndex);
+  };
 
   const activateSlide = (nextIndex: number) => {
-    const normalizedIndex =
-      (nextIndex + portfolioFilms.length) % portfolioFilms.length;
-
-    setLoadedSlides((currentSlides) =>
-      currentSlides.includes(normalizedIndex)
-        ? currentSlides
-        : [...currentSlides, normalizedIndex],
-    );
-    setActiveIndex(normalizedIndex);
+    moveToTrackIndex(nextIndex + 1);
   };
 
   const resetTouchGesture = () => {
@@ -102,19 +210,32 @@ export function ShowreelPlaceholder({ content }: ShowreelPlaceholderProps) {
     }
 
     if (swipeDistance > 0) {
-      activateSlide(activeIndex - 1);
+      moveToTrackIndex(trackIndex - 1);
       return;
     }
 
-    activateSlide(activeIndex + 1);
+    moveToTrackIndex(trackIndex + 1);
   };
 
   const handlePrevious = () => {
-    activateSlide(activeIndex - 1);
+    moveToTrackIndex(trackIndex - 1);
   };
 
   const handleNext = () => {
-    activateSlide(activeIndex + 1);
+    moveToTrackIndex(trackIndex + 1);
+  };
+
+  const handleTrackAnimationComplete = () => {
+    if (trackIndex === 0) {
+      setIsTrackTransitionEnabled(false);
+      setTrackIndex(portfolioFilms.length);
+      return;
+    }
+
+    if (trackIndex === loopedPortfolioFilms.length - 1) {
+      setIsTrackTransitionEnabled(false);
+      setTrackIndex(1);
+    }
   };
 
   const gestureHandlers = {
@@ -124,24 +245,7 @@ export function ShowreelPlaceholder({ content }: ShowreelPlaceholderProps) {
     onTouchCancel: resetTouchGesture,
   };
 
-  const railGestureHandlers = {
-    onTouchStart: (event: TouchEvent<HTMLDivElement>) => {
-      event.stopPropagation();
-      handleTouchStart(event);
-    },
-    onTouchMove: (event: TouchEvent<HTMLDivElement>) => {
-      event.stopPropagation();
-      handleTouchMove(event);
-    },
-    onTouchEnd: (event: TouchEvent<HTMLDivElement>) => {
-      event.stopPropagation();
-      handleTouchEnd();
-    },
-    onTouchCancel: (event: TouchEvent<HTMLDivElement>) => {
-      event.stopPropagation();
-      resetTouchGesture();
-    },
-  };
+
 
   return (
     <motion.section
@@ -161,15 +265,20 @@ export function ShowreelPlaceholder({ content }: ShowreelPlaceholderProps) {
       <div className="relative select-none touch-pan-y" {...gestureHandlers}>
         <div className="overflow-hidden rounded-[32px]">
           <motion.div
-            animate={{ x: `${activeIndex * -100}%` }}
-            transition={{ duration: 0.55, ease: easeCurve }}
+            animate={{ x: `${trackIndex * -100}%` }}
+            transition={
+              isTrackTransitionEnabled
+                ? { duration: 0.55, ease: easeCurve }
+                : { duration: 0 }
+            }
+            onAnimationComplete={handleTrackAnimationComplete}
             className="flex will-change-transform"
           >
-            {portfolioFilms.map(({ embedSrc, title }, index) => {
-              const shouldRenderIframe = loadedSlides.includes(index);
+            {loopedPortfolioFilms.map(({ actualIndex, embedSrc, key, title }) => {
+              const shouldRenderIframe = loadedSlides.has(actualIndex);
 
               return (
-                <div key={embedSrc} className="w-full shrink-0">
+                <div key={key} className="w-full shrink-0">
                   <div className="soft-card overflow-hidden rounded-[32px] p-3 sm:p-4">
                     <div className="showreel-shell relative aspect-video w-full overflow-hidden rounded-[28px]">
                       <div className="showreel-overlay pointer-events-none absolute inset-0 opacity-40" />
@@ -177,8 +286,9 @@ export function ShowreelPlaceholder({ content }: ShowreelPlaceholderProps) {
                       {shouldRenderIframe ? (
                         <iframe
                           src={embedSrc}
+                          srcDoc={buildEmbedPreview(embedSrc, title)}
                           title={title}
-                          loading={index === 0 ? "eager" : "lazy"}
+                          loading={actualIndex === 0 ? "eager" : "lazy"}
                           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                           allowFullScreen
                           referrerPolicy="strict-origin-when-cross-origin"
@@ -196,18 +306,7 @@ export function ShowreelPlaceholder({ content }: ShowreelPlaceholderProps) {
                         </div>
                       )}
 
-                      <div className="pointer-events-none absolute inset-x-0 bottom-3 z-20 flex justify-center sm:hidden">
-                        <div
-                          aria-label="Swipe portfolio videos"
-                          className="liquid-pill pointer-events-auto inline-flex min-h-10 min-w-16 items-center justify-center rounded-full px-3"
-                          {...railGestureHandlers}
-                        >
-                          <ArrowLeftRight
-                            className="h-4 w-4 text-[var(--text-secondary)]"
-                            strokeWidth={1.8}
-                          />
-                        </div>
-                      </div>
+
                     </div>
 
                     <div className="px-2 pb-2 pt-4">

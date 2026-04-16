@@ -208,7 +208,6 @@ button {
 .glass-panel {
   position: relative;
   z-index: 0;
-  isolation: isolate;
   overflow: hidden;
   background: var(--glass-bg);
   border: 1px solid var(--glass-border);
@@ -220,7 +219,6 @@ button {
 .glass-button {
   position: relative;
   z-index: 0;
-  isolation: isolate;
   overflow: hidden;
   background: var(--button-secondary-bg);
   border: 1px solid var(--line-soft);
@@ -232,7 +230,6 @@ button {
 .glass-soft-card {
   position: relative;
   z-index: 0;
-  isolation: isolate;
   overflow: hidden;
   background: var(--surface-strong);
   border: 1px solid var(--line-soft);
@@ -270,7 +267,6 @@ button {
 .liquid-pill {
   position: relative;
   z-index: 0;
-  isolation: isolate;
   overflow: hidden;
   background: var(--liquid-surface);
   border: 1px solid var(--liquid-border);

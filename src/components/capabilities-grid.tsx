@@ -6,12 +6,14 @@ import { BentoCard } from "@/components/ui/bento-card";
 import type { SiteCopy } from "@/lib/site-copy";
 
 const easeCurve = [0.22, 1, 0.36, 1] as const;
-const softwareBadgeClassByCode = {
+const softwareBadgeClassByCode: Record<string, string> = {
   Ps: "bg-[#001833] text-[#31a8ff] ring-1 ring-inset ring-[#31a8ff]/18",
   Pr: "bg-[#210031] text-[#d28cff] ring-1 ring-inset ring-[#d28cff]/18",
   Ae: "bg-[#14002d] text-[#cfa8ff] ring-1 ring-inset ring-[#cfa8ff]/18",
   Ai: "bg-[#2b1200] text-[#ff9a1f] ring-1 ring-inset ring-[#ff9a1f]/18",
-} as const;
+};
+
+const defaultBadgeClass = "bg-[var(--surface-softer)] text-[var(--text-primary)] ring-1 ring-inset ring-[var(--line-soft)]";
 
 type CapabilitiesGridProps = {
   content: SiteCopy["capabilities"];
@@ -87,7 +89,7 @@ export function CapabilitiesGrid({ content }: CapabilitiesGridProps) {
                 >
                   <div className="flex items-start justify-between gap-3">
                     <div
-                      className={`flex h-11 w-11 items-center justify-center rounded-2xl text-sm font-semibold tracking-[-0.04em] ${softwareBadgeClassByCode[code]}`}
+                      className={`flex h-11 w-11 items-center justify-center rounded-2xl text-sm font-semibold tracking-[-0.04em] ${softwareBadgeClassByCode[code] ?? defaultBadgeClass}`}
                     >
                       {code}
                     </div>
